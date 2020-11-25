@@ -13,7 +13,15 @@ def table_creation():
     cursor.execute(table_query)
 
 def create():
-    pass
+    s_no = int(input("serial number: "))
+    Item_name = input("item name: ")
+    prch_date = input("dop yyyy-mm-dd: ")
+    mfg_date = input("dom yyyy-mm-dd: ")
+    exp_date = input("doe yyyy-mm-dd: ")
+    qty = int(input("quantity: "))
+    price_per_unit = int(input("price: "))
+    insert_query = "INSERT INTO store (serial_number, Item_name, purchase_date, mfg_date, expiry_date, qty, price_per_unit) VALUES ({}, {}, {}, {}, {}, {}, {})".format(sno, Item_name, prch_date, mfg_date, exp_date, qty, price_per_unit)
+    cursor.execute(insert_query)
 
 def search(record_to_search):
     pass
@@ -21,7 +29,7 @@ def search(record_to_search):
 def update(record_to_update):
     pass
 
-def delete(record_to_delete):
+def delete(record_to_delete):_number}, {Item_name}, {purchase_date}, {mfg_date}, {expiry_date}, {qty}, {price_per_unit}).format(sno, Item_name, 
     pass
 
 print("WELCOME TO STOMAN")
