@@ -1,6 +1,8 @@
-import mysql.connector as mc
+import mysql.connector as mc, getpass
 
-connection = mc.connect(host = 'localhost', user = 'root', password = 'root#123')
+mysql_uname = input("Enter mysql username: ")
+mysql_passw = getpass.getpass("Enter mysql password: ")
+connection = mc.connect(host = 'localhost', user = mysql_uname, password = mysql_passw)
 cursor = connection.cursor()
 
 try:
