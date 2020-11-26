@@ -23,13 +23,18 @@ def create():
     insert_query = "INSERT INTO store (serial_number, Item_name, purchase_date, mfg_date, expiry_date, qty, price_per_unit) VALUES ({}, {}, {}, {}, {}, {}, {})".format(sno, Item_name, prch_date, mfg_date, exp_date, qty, price_per_unit)
     cursor.execute(insert_query)
 
-def search(record_to_search):
-    pass
+
+def search(sno_to_search):
+    search_query = ("select * from store where sno = " + sno_to_search)
+    cursor.execute(search_query)
+    record = cursor.fetchone()
+    print(record)
+    
 
 def update(record_to_update):
     pass
 
-def delete(record_to_delete):_number}, {Item_name}, {purchase_date}, {mfg_date}, {expiry_date}, {qty}, {price_per_unit}).format(sno, Item_name, 
+def delete(record_to_delete):({number}, {Item_name}, {purchase_date}, {mfg_date}, {expiry_date}, {qty}, {price_per_unit}).format(sno, Item_name, 
     pass
 
 print("WELCOME TO STOMAN")
@@ -44,8 +49,8 @@ while True:
         elif crud == 1:
             create()
         elif crud == 2:
-            record_to_search = input("Enter name of book to search for: ")
-            search(record_to_search)
+            sno_to_search = input("Enter sno of product to search for: ")
+            search(sno_to_search)
         elif crud == 3:
             record_to_update = input("Enter name of book to update: ")
             update(record_to_update)
