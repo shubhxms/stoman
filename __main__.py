@@ -8,9 +8,11 @@ try:
 except:
     print("some error.")
 
+
 def table_creation():
     table_query = "CREATE TABLE 'store' (serial_number int(10) NOT NULL, Item_name varchar(20), purchase_date date, mfg_date date, expiry_date date, qty int(20), price_per_unit int(20))"
     cursor.execute(table_query)
+
 
 def create():
     s_no = int(input("serial number: "))
@@ -31,15 +33,19 @@ def search(sno_to_search):
     print(record)
 
 
-def update(record_to_update):
-    pass
-
 def delete(sno_to_delete):
     delete_query = ("delete from laptop where serial_number = " + sno_to_delete)
     cursor.execute(delete_query)
-    
+
+
+def update(record_to_update):
+    delete(record_to_update)
+    create()
+
+
 print("WELCOME TO STOMAN")
 print("===============")
+
 while True:
     try:
         print("==================")
