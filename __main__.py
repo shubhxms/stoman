@@ -15,7 +15,7 @@ def table_creation():
 
 
 def create():
-    s_no = int(input("serial number: "))
+    sno = int(input("serial number: "))
     Item_name = input("item name: ")
     prch_date = input("dop yyyy-mm-dd: ")
     mfg_date = input("dom yyyy-mm-dd: ")
@@ -62,7 +62,7 @@ while True:
             record_to_update = input("Enter name of book to update: ")
             update(record_to_update)
         elif crud == 4:
-            record_to_delete = input("Enter sno of product to delete: ")
+            sno_to_delete = input("Enter sno of product to delete: ")
             delete(sno_to_delete)
         else:
             print("Invalid choice.")
