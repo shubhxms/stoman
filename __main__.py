@@ -25,18 +25,19 @@ def create():
 
 
 def search(sno_to_search):
-    search_query = ("select * from store where sno = " + sno_to_search)
+    search_query = ("select * from store where serial_number = " + sno_to_search)
     cursor.execute(search_query)
     record = cursor.fetchone()
     print(record)
-    
+
 
 def update(record_to_update):
     pass
 
-def delete(record_to_delete):({number}, {Item_name}, {purchase_date}, {mfg_date}, {expiry_date}, {qty}, {price_per_unit}).format(sno, Item_name, 
-    pass
-
+def delete(sno_to_delete):
+    delete_query = ("delete from laptop where serial_number = " + sno_to_delete)
+    cursor.execute(delete_query)
+    
 print("WELCOME TO STOMAN")
 print("===============")
 while True:
@@ -55,8 +56,8 @@ while True:
             record_to_update = input("Enter name of book to update: ")
             update(record_to_update)
         elif crud == 4:
-            record_to_delete = input("Enter name of book to delete: ")
-            delete(record_to_delete)
+            record_to_delete = input("Enter sno of product to delete: ")
+            delete(sno_to_delete)
         else:
             print("Invalid choice.")
             print("==================")
