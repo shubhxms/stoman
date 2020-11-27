@@ -1,31 +1,38 @@
-import mysql.connector as mc, getpass
+import mysql.connector as mc, getpass, rich 
+from tabulate import tabulate
 
-mysql_uname = input("Enter mysql username: ")
-mysql_passw = getpass.getpass("Enter mysql password: ")
-connection = mc.connect(host = 'localhost', user = mysql_uname, password = mysql_passw)
+#mysql_uname = input("Enter mysql username: ")
+#mysql_passw = getpass.getpass("Enter mysql password: ")
+connection = mc.connect(host = 'localhost', user = 'root', password = 'root#123')
 cursor = connection.cursor()
 
 try:
     cursor.execute("CREATE DATABASE gs")
 except:
     print("some error.")
-
+finally:
+    cursor.execute("use gs")
 
 def table_creation():
-    table_query = "CREATE TABLE 'store' (serial_number int(10) NOT NULL, Item_name varchar(20), purchase_date date, mfg_date date, expiry_date date, qty int(20), price_per_unit int(20))"
+    table_query = "CREATE TABLE IF NOT EXISTS store(serial_number int NOT NULL AUTO_INCREMENT, Item_name varchar(20), purchase_date DATE, mfg_date DATE, expiry_date DATE, qty int, price_per_unit int, PRIMARY KEY(serial_number))"
     cursor.execute(table_query)
 
+try:
+    table_creation()
+except:
+    print('error')
 
 def create():
-    sno = int(input("serial number: "))
+    #sno = int(input("serial number: "))
     Item_name = input("item name: ")
     prch_date = input("dop yyyy-mm-dd: ")
     mfg_date = input("dom yyyy-mm-dd: ")
     exp_date = input("doe yyyy-mm-dd: ")
     qty = int(input("quantity: "))
     price_per_unit = int(input("price: "))
-    insert_query = "INSERT INTO store (serial_number, Item_name, purchase_date, mfg_date, expiry_date, qty, price_per_unit) VALUES ({}, {}, {}, {}, {}, {}, {})".format(sno, Item_name, prch_date, mfg_date, exp_date, qty, price_per_unit)
+    insert_query = "INSERT INTO store(Item_name, purchase_date, mfg_date, expiry_date, qty, price_per_unit) VALUES({}, {}, {}, {}, {}, {})".format(Item_name, prch_date, mfg_date, exp_date, qty, price_per_unit)
     cursor.execute(insert_query)
+    connection.commit()
 
 
 def search(sno_to_search):
@@ -36,8 +43,9 @@ def search(sno_to_search):
 
 
 def delete(sno_to_delete):
-    delete_query = ("delete from laptop where serial_number = " + sno_to_delete)
+    delete_query = ("delete from store where serial_number = " + sno_to_delete)
     cursor.execute(delete_query)
+    connection.commit()
 
 
 def update(record_to_update):
@@ -54,6 +62,7 @@ while True:
         crud = int(input("Please select:\n\t0. Exit\n\t1. Create\n\t2. Search\n\t3. Update\n\t4. Delete\nchoice: "))
         if crud == 0:
             print("So long..!\n==================")
+            connection.close()
             break
         elif crud == 1:
             create()
@@ -70,4 +79,4 @@ while True:
             print("Invalid choice.")
             print("==================")
     except:
-        print("Invalid choice.")
+        print("except Invalid choice.")
