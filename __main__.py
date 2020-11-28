@@ -14,7 +14,7 @@ finally:
     cursor.execute("use gs")
 
 def table_creation():
-    table_query = "CREATE TABLE IF NOT EXISTS store(serial_number int NOT NULL AUTO_INCREMENT, Item_name varchar(20), purchase_date DATE, mfg_date DATE, expiry_date DATE, qty int, price_per_unit int, PRIMARY KEY(serial_number))"
+    table_query = "CREATE TABLE IF NOT EXISTS store(serial_number int NOT NULL AUTO_INCREMENT, Item_name varchar(20), purchase_date DATE, mfg_date DATE, expiry_date DATE, qty decimal, price_per_unit decimal, PRIMARY KEY(serial_number))"
     cursor.execute(table_query)
 
 try:
@@ -30,7 +30,7 @@ def create():
     exp_date = input("doe yyyy-mm-dd: ")
     qty = int(input("quantity: "))
     price_per_unit = int(input("price: "))
-    insert_query = "INSERT INTO store(Item_name, purchase_date, mfg_date, expiry_date, qty, price_per_unit) VALUES({}, {}, {}, {}, {}, {})".format(Item_name, prch_date, mfg_date, exp_date, qty, price_per_unit)
+    insert_query = "INSERT INTO store(Item_name, purchase_date, mfg_date, expiry_date, qty, price_per_unit) VALUES({}, {}, {}, {}, {}, {})".format("'"+Item_name+"'", "'"+prch_date+"'", "'"+mfg_date+"'", "'"+exp_date+"'", qty, price_per_unit)
     cursor.execute(insert_query)
     connection.commit()
 
@@ -52,6 +52,13 @@ def update(record_to_update):
     delete(record_to_update)
     create()
 
+def print_data():
+    cursor.execute("select * from store")
+    data = cursor.fetchall()
+    rec = []
+    for row in data:
+        rec.append(list(row))
+    print(tabulate(rec, headers = ['serial_number','Item_name','purchase_date','mfg_date','expiry_date','qty','price_per_unit'], tablefmt = "pretty"))
 
 print("WELCOME TO STOMAN")
 print("===============")
@@ -59,7 +66,7 @@ print("===============")
 while True:
     try:
         print("==================")
-        crud = int(input("Please select:\n\t0. Exit\n\t1. Create\n\t2. Search\n\t3. Update\n\t4. Delete\nchoice: "))
+        crud = int(input("Please select:\n\t0. Exit\n\t1. Insert\n\t2. Search\n\t3. Update\n\t4. Delete\n\t5. Whole data\nchoice: "))
         if crud == 0:
             print("So long..!\n==================")
             connection.close()
@@ -75,6 +82,8 @@ while True:
         elif crud == 4:
             sno_to_delete = input("Enter sno of product to delete: ")
             delete(sno_to_delete)
+        elif crud == 5:
+            print_data()
         else:
             print("Invalid choice.")
             print("==================")
